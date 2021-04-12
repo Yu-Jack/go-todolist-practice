@@ -8,8 +8,8 @@ import (
 
 // Reference: https://golang.org/pkg/encoding/json/#Marshal
 type TodoList struct {
-	Todo      []string `json:"todo"`
-	Create_at string   `json:"create_at"`
+	Todo     []string `json:"todo"`
+	CreateAt string   `json:"create_at"`
 }
 
 type UserTodoList struct {

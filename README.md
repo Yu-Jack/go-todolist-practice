@@ -12,6 +12,7 @@ There are two APIs, and db is file now.
 [ ] Add API to edit task name and remove task.  
 [ ] Add API to add new user and remove user.  
 
-Make sure the code and folder structure follow up the following advise.  
+Make sure the code and folder structure follow up the following advises.  
 1. https://github.com/llitfkitfk/go-best-practice  
 2. https://github.com/Ptt-official-app/Ptt-backend/issues/16  
+3. https://ronmi.github.io/post/go/effectivego/  
