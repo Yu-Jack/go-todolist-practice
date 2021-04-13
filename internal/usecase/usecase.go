@@ -1,7 +1,13 @@
 package usecase
 
-type usecaseapi struct{}
+import "jack-test/internal/repository"
 
-func NewUsecaseapi() usecaseapi {
-	return usecaseapi{}
+type usecaseapi struct {
+	repo repository.Repository
+}
+
+func NewUsecaseapi(repo repository.Repository) usecaseapi {
+	return usecaseapi{
+		repo: repo,
+	}
 }

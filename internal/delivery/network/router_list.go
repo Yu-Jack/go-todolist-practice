@@ -3,6 +3,7 @@ package network
 import (
 	"encoding/json"
 	"fmt"
+	"jack-test/internal/repository"
 	"jack-test/internal/usecase"
 	"net/http"
 )
@@ -12,7 +13,8 @@ func GetList(w http.ResponseWriter, r *http.Request) {
 		r.ParseForm()
 		username := r.FormValue("username")
 
-		usecaseapi := usecase.NewUsecaseapi()
+		repo := repository.NewRepository()
+		usecaseapi := usecase.NewUsecaseapi(&repo)
 		todoList, err := usecaseapi.FindByUserName(username)
 
 		if err != nil {
@@ -31,7 +33,8 @@ func CreateList(w http.ResponseWriter, r *http.Request) {
 		r.ParseForm()
 
 		username := r.FormValue("username")
-		usecaseapi := usecase.NewUsecaseapi()
+		repo := repository.NewRepository()
+		usecaseapi := usecase.NewUsecaseapi(&repo)
 		todoList, err := usecaseapi.FindByUserName(username)
 
 		if err != nil {

@@ -7,8 +7,7 @@ import (
 )
 
 func (usecaseapi *usecaseapi) FindByUserName(username string) (dataservice.TodoList, error) {
-	repo := repository.NewRepository()
-	userList, err := repo.GetList()
+	userList, err := usecaseapi.repo.GetList()
 
 	if err != nil {
 		return userList.Users[""], err

@@ -1,9 +1,7 @@
 {
     "user1": {
         "todo": [
-            "eat dinner1",
-            "eaaaaaat",
-            "bug"
+            "eat dinner1"
         ],
         "create_at": "now"
     },
