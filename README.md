@@ -16,3 +16,5 @@ Make sure the code and folder structure follow up the following advises.
 1. https://github.com/llitfkitfk/go-best-practice  
 2. https://github.com/Ptt-official-app/Ptt-backend/issues/16  
 3. https://ronmi.github.io/post/go/effectivego/  
+4. https://openhome.cc/Gossip/Go/index.html  
+5. https://golang.org/doc/effective_go#control-structures  
