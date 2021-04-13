@@ -1,23 +1,39 @@
 package repository
 
 import (
+	"encoding/json"
 	"io/ioutil"
+	"jack-test/internal/dataservice"
 )
 
 var fileName string = "data.json"
 
-func GetList() ([]byte, error) {
+func (repository *repository) GetList() (dataservice.UserTodoList, error) {
+	var userList dataservice.UserTodoList
+
 	content, err := ioutil.ReadFile(fileName)
 
 	if err != nil {
-		return nil, err
+		return userList, err
 	}
 
-	return content, nil
+	err = json.Unmarshal(content, &userList.Users)
+
+	if err != nil {
+		return userList, err
+	}
+
+	return userList, nil
 }
 
-func SaveList(content []byte) error {
-	err := ioutil.WriteFile(fileName, content, 0644)
+func (repository *repository) SaveList(userList dataservice.UserTodoList) error {
+
+	jsonData, err := json.MarshalIndent(userList.Users, "", "    ")
+	if err != nil {
+		return err
+	}
+
+	err = ioutil.WriteFile(fileName, jsonData, 0644)
 
 	if err != nil {
 		return err

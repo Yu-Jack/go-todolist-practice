@@ -10,10 +10,11 @@ import (
 func GetList(w http.ResponseWriter, r *http.Request) {
 	if r.Method == http.MethodGet {
 		r.ParseForm()
-
-		var userTodoLists usecase.UserTodoList
 		username := r.FormValue("username")
-		todoList, err := userTodoLists.FindByUserName(username)
+
+		usecaseapi := usecase.NewUsecaseapi()
+		todoList, err := usecaseapi.FindByUserName(username)
+
 		if err != nil {
 			fmt.Print(err.Error())
 			fmt.Fprintf(w, "failed")
@@ -27,11 +28,12 @@ func GetList(w http.ResponseWriter, r *http.Request) {
 
 func CreateList(w http.ResponseWriter, r *http.Request) {
 	if r.Method == http.MethodPost {
-		var userTodoLists usecase.UserTodoList
-
 		r.ParseForm()
+
 		username := r.FormValue("username")
-		todoList, err := userTodoLists.FindByUserName(username)
+		usecaseapi := usecase.NewUsecaseapi()
+		todoList, err := usecaseapi.FindByUserName(username)
+
 		if err != nil {
 			fmt.Print(err.Error())
 			fmt.Fprintf(w, "failed")
@@ -39,9 +41,10 @@ func CreateList(w http.ResponseWriter, r *http.Request) {
 		}
 
 		task := r.FormValue("task")
-		userTodoLists.Users[username] = *todoList.UpdateTodoList(task)
+		todoList.UpdateTodoList(task)
 
-		err = userTodoLists.UpdateUsersList()
+		err = usecaseapi.UpdateUsersList(username, todoList)
+
 		if err != nil {
 			fmt.Print(err.Error())
 			fmt.Fprintf(w, "success")
