@@ -60,7 +60,34 @@ func CreateList(w http.ResponseWriter, r *http.Request) {
 
 func DeleteList(w http.ResponseWriter, r *http.Request) {
 	if r.Method == http.MethodPost {
-		// TODO: Implement delete list
-		fmt.Fprintf(w, "this is delete list")
+		r.ParseForm()
+
+		username := r.FormValue("username")
+		repo := repository.NewRepository()
+		usecaseapi := usecase.NewUsecaseapi(&repo)
+		todoList, err := usecaseapi.FindByUserName(username)
+
+		if err != nil {
+			fmt.Print(err.Error())
+			fmt.Fprintf(w, "failed")
+			return
+		}
+
+		task := r.FormValue("task")
+		err = todoList.DeleteTodoList(task)
+		if err != nil {
+			fmt.Print(err.Error())
+			fmt.Fprintf(w, "failed")
+			return
+		}
+
+		err = usecaseapi.UpdateUsersList(username, todoList)
+		if err != nil {
+			fmt.Print(err.Error())
+			fmt.Fprintf(w, "failed")
+			return
+		}
+
+		fmt.Fprintf(w, "success")
 	}
 }

@@ -5,6 +5,7 @@ There are two APIs, and db is file now.
 
 1. `curl http://localhost:7070/todo-list/get?username=user1`  
 2. `curl -X POST http://localhost:7070/todo-list/create?username=user1&task=hi`  
+3. `curl -X POST http://localhost:7070/todo-list/delete?username=user1&task=hi`  
 
 ## TODO
 
