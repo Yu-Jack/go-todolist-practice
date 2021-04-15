@@ -45,8 +45,7 @@ func CreateList(w http.ResponseWriter, r *http.Request) {
 		}
 
 		task := r.FormValue("task")
-		todoList.Sequence++
-		todoList.UpdateTodoList(task, todoList.Sequence)
+		todoList.UpdateTodoList(task)
 
 		err = usecaseapi.UpdateUsersList(username, todoList)
 

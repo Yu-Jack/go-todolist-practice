@@ -23,9 +23,10 @@ type UserTodoList struct {
 	Users map[string]TodoList
 }
 
-func (todoList *TodoList) UpdateTodoList(task string, sequence int64) {
+func (todoList *TodoList) UpdateTodoList(task string) {
+	todoList.Sequence++
 	newTask := Task {
-		Id: sequence,
+		Id: todoList.Sequence,
 		Name: task,
 		CreateAt: time.Now().UnixNano() / int64(time.Millisecond),
 	}

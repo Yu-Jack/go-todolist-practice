@@ -19,3 +19,8 @@ func (mockRepository *MockRepository) GetList() (dataservice.UserTodoList, error
 	}
 	return list, nil
 }
+
+func (mockRepository *MockRepository) SaveList(dataservice.UserTodoList) error {
+// Do nothing
+	return nil
+}
