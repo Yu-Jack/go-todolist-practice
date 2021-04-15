@@ -8,8 +8,12 @@ func (mockRepository *MockRepository) GetList() (dataservice.UserTodoList, error
 	list := dataservice.UserTodoList{
 		Users: map[string]dataservice.TodoList{
 			"user1": {
-				Todo:     []string{"123"},
-				CreateAt: "123",
+				Todo:     []dataservice.Task{{
+					Id: 1,
+					Name: "task",
+					CreateAt: 123,
+				}},
+				CreateAt: 123,
 			},
 		},
 	}

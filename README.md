@@ -5,7 +5,7 @@ There are two APIs, and db is file now.
 
 1. `curl http://localhost:7070/todo-list/get?username=user1`  
 2. `curl -X POST http://localhost:7070/todo-list/create?username=user1&task=hi`  
-3. `curl -X POST http://localhost:7070/todo-list/delete?username=user1&task=hi`  
+3. `curl -X POST http://localhost:7070/todo-list/delete?username=user1&task=hi`
 
 ## TODO
 
@@ -20,3 +20,23 @@ Make sure the code and folder structure follow up the following advises.
 4. https://openhome.cc/Gossip/Go/index.html  
 5. https://golang.org/doc/effective_go#control-structures  
 6. https://gobyexample-cn.github.io/
+
+## Data Structure
+
+This is a very simple structure.
+
+```json
+{
+  "user1": {
+    "sequence": 1,
+    "todo": [
+      {
+        "id": 1,
+        "name": "eat1",
+        "create_at": 1618491050221
+      }
+    ],
+    "create_at": 1618491050221
+  }
+}
+```

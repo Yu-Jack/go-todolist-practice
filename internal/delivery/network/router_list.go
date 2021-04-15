@@ -6,6 +6,7 @@ import (
 	"jack-test/internal/repository"
 	"jack-test/internal/usecase"
 	"net/http"
+	"strconv"
 )
 
 func GetList(w http.ResponseWriter, r *http.Request) {
@@ -44,7 +45,8 @@ func CreateList(w http.ResponseWriter, r *http.Request) {
 		}
 
 		task := r.FormValue("task")
-		todoList.UpdateTodoList(task)
+		todoList.Sequence++
+		todoList.UpdateTodoList(task, todoList.Sequence)
 
 		err = usecaseapi.UpdateUsersList(username, todoList)
 
@@ -73,8 +75,8 @@ func DeleteList(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 
-		task := r.FormValue("task")
-		err = todoList.DeleteTodoList(task)
+		taskId, _ := strconv.ParseInt(r.FormValue("id"), 10, 0)
+		err = todoList.DeleteTodoList(taskId)
 		if err != nil {
 			fmt.Print(err.Error())
 			fmt.Fprintf(w, "failed")
