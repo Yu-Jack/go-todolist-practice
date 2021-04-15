@@ -3,11 +3,17 @@ package network
 import (
 	"encoding/json"
 	"fmt"
+	"jack-test/internal/dataservice"
 	"jack-test/internal/repository"
 	"jack-test/internal/usecase"
 	"net/http"
 	"strconv"
 )
+
+type getListResponse struct {
+	Response
+	dataservice.TodoList
+}
 
 func GetList(w http.ResponseWriter, r *http.Request) {
 	if r.Method == http.MethodGet {
@@ -20,11 +26,17 @@ func GetList(w http.ResponseWriter, r *http.Request) {
 
 		if err != nil {
 			fmt.Print(err.Error())
-			fmt.Fprintf(w, "failed")
+			resp := NewFailedResponse(100)
+			w.Write(resp.convertToBytes())
 			return
 		}
 
-		responseJson, _ := json.MarshalIndent(todoList, "", "")
+		response := getListResponse{
+			NewSuccessResponse(),
+			todoList,
+		}
+
+		responseJson, _ := json.MarshalIndent(response, "", "")
 		w.Write(responseJson)
 	}
 }
@@ -40,7 +52,8 @@ func CreateList(w http.ResponseWriter, r *http.Request) {
 
 		if err != nil {
 			fmt.Print(err.Error())
-			fmt.Fprintf(w, "failed")
+			resp := NewFailedResponse(100)
+			w.Write(resp.convertToBytes())
 			return
 		}
 
@@ -51,11 +64,13 @@ func CreateList(w http.ResponseWriter, r *http.Request) {
 
 		if err != nil {
 			fmt.Print(err.Error())
-			fmt.Fprintf(w, "success")
+			resp := NewFailedResponse(100)
+			w.Write(resp.convertToBytes())
 			return
 		}
 
-		fmt.Fprintf(w, "success")
+		resp := NewSuccessResponse()
+		w.Write(resp.convertToBytes())
 	}
 }
 
@@ -70,7 +85,8 @@ func DeleteList(w http.ResponseWriter, r *http.Request) {
 
 		if err != nil {
 			fmt.Print(err.Error())
-			fmt.Fprintf(w, "failed")
+			resp := NewFailedResponse(100)
+			w.Write(resp.convertToBytes())
 			return
 		}
 
@@ -78,17 +94,20 @@ func DeleteList(w http.ResponseWriter, r *http.Request) {
 		err = todoList.DeleteTodoList(taskId)
 		if err != nil {
 			fmt.Print(err.Error())
-			fmt.Fprintf(w, "failed")
+			resp := NewFailedResponse(100)
+			w.Write(resp.convertToBytes())
 			return
 		}
 
 		err = usecaseapi.UpdateUsersList(username, todoList)
 		if err != nil {
 			fmt.Print(err.Error())
-			fmt.Fprintf(w, "failed")
+			resp := NewFailedResponse(100)
+			w.Write(resp.convertToBytes())
 			return
 		}
 
-		fmt.Fprintf(w, "success")
+		resp := NewSuccessResponse()
+		w.Write(resp.convertToBytes())
 	}
 }

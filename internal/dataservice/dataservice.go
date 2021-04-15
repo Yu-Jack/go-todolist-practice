@@ -8,15 +8,15 @@ import (
 // TodoList Reference: https://golang.org/pkg/encoding/json/#Marshal
 
 type Task struct {
-	Id int64 `json:"id"`
-	Name string `json:"name"`
-	CreateAt int64 `json:"create_at"`
+	Id       int64  `json:"id"`
+	Name     string `json:"name"`
+	CreateAt int64  `json:"create_at"`
 }
 
 type TodoList struct {
-	Sequence int64 `json:"-"`
+	Sequence int64  `json:"sequence"`
 	Todo     []Task `json:"todo"`
-	CreateAt int64   `json:"create_at"`
+	CreateAt int64  `json:"create_at"`
 }
 
 type UserTodoList struct {
@@ -25,9 +25,9 @@ type UserTodoList struct {
 
 func (todoList *TodoList) UpdateTodoList(task string) {
 	todoList.Sequence++
-	newTask := Task {
-		Id: todoList.Sequence,
-		Name: task,
+	newTask := Task{
+		Id:       todoList.Sequence,
+		Name:     task,
 		CreateAt: time.Now().UnixNano() / int64(time.Millisecond),
 	}
 	todoList.Todo = append(todoList.Todo, newTask)
