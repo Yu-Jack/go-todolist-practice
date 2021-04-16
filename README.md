@@ -9,9 +9,12 @@ There are two APIs, and db is file now.
 
 ## TODO
 
-[ ] Change file schema, add create time for task.  
-[ ] Add API to edit task name and remove task.  
-[ ] Add API to add new user and remove user.  
+- [x] Change file schema, add create time for task.
+- [x] Add API to edit task name and remove task.
+- [x] Change response data structure.
+- [ ] Add unit test.
+- [ ] Add API to add new user and remove user.
+- [ ] Connect google calendar or google tasks.
 
 Make sure the code and folder structure follow up the following advises.  
 1. https://github.com/llitfkitfk/go-best-practice  
