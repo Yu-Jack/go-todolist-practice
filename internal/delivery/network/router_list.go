@@ -1,7 +1,6 @@
 package network
 
 import (
-	"encoding/json"
 	"fmt"
 	"jack-test/internal/dataservice"
 	"jack-test/internal/repository"
@@ -36,8 +35,7 @@ func GetList(w http.ResponseWriter, r *http.Request) {
 			todoList,
 		}
 
-		responseJson, _ := json.MarshalIndent(response, "", "")
-		w.Write(responseJson)
+		w.Write(ToJson(response))
 	}
 }
 

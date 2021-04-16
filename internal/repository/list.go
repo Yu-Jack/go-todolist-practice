@@ -2,7 +2,6 @@ package repository
 
 import (
 	"encoding/json"
-	"fmt"
 	"io/ioutil"
 	"jack-test/internal/dataservice"
 )
@@ -10,7 +9,6 @@ import (
 var fileName string = "data.json"
 
 func (repository *repository) GetList() (dataservice.UserTodoList, error) {
-	fmt.Printf("this is real")
 	var userList dataservice.UserTodoList
 
 	content, err := ioutil.ReadFile(fileName)

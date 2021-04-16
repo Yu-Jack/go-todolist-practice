@@ -19,6 +19,12 @@ func (response *Response) convertToBytes() []byte {
 	return responseJson
 }
 
+func ToJson (response ...interface{}) []byte {
+	responseJson, _ := json.MarshalIndent(response, "", "")
+	return responseJson
+
+}
+
 func buildResponse(status int) (response Response) {
 	return Response{
 		Status:  status,
