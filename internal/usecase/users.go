@@ -2,7 +2,7 @@ package usecase
 
 import "jack-test/internal/dataservice"
 
-func (usecaseapi *usecaseapi) FindAllUsers() (username []dataservice.User, error error) {
+func (usecaseapi *Usecaseapi) FindAllUsers() (username []dataservice.User, error error) {
 	var users []dataservice.User
 	userList, _ := usecaseapi.repo.GetList()
 

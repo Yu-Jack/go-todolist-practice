@@ -3,8 +3,6 @@ package network
 import (
 	"fmt"
 	"jack-test/internal/dataservice"
-	"jack-test/internal/repository"
-	"jack-test/internal/usecase"
 	"net/http"
 	"strconv"
 )
@@ -14,14 +12,11 @@ type getListResponse struct {
 	dataservice.TodoList
 }
 
-func GetList(w http.ResponseWriter, r *http.Request) {
+func (network *Network) GetList(w http.ResponseWriter, r *http.Request) {
 	if r.Method == http.MethodGet {
 		r.ParseForm()
 		username := r.FormValue("username")
-
-		repo := repository.NewRepository()
-		usecaseapi := usecase.NewUsecaseapi(&repo)
-		todoList, err := usecaseapi.FindByUserName(username)
+		todoList, err := network.usecaseapi.FindByUserName(username)
 
 		if err != nil {
 			fmt.Print(err.Error())
@@ -39,14 +34,12 @@ func GetList(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func CreateList(w http.ResponseWriter, r *http.Request) {
+func (network *Network) CreateList(w http.ResponseWriter, r *http.Request) {
 	if r.Method == http.MethodPost {
 		r.ParseForm()
 
 		username := r.FormValue("username")
-		repo := repository.NewRepository()
-		usecaseapi := usecase.NewUsecaseapi(&repo)
-		todoList, err := usecaseapi.FindByUserName(username)
+		todoList, err := network.usecaseapi.FindByUserName(username)
 
 		if err != nil {
 			fmt.Print(err.Error())
@@ -58,7 +51,7 @@ func CreateList(w http.ResponseWriter, r *http.Request) {
 		task := r.FormValue("task")
 		todoList.UpdateTodoList(task)
 
-		err = usecaseapi.UpdateUsersList(username, todoList)
+		err = network.usecaseapi.UpdateUsersList(username, todoList)
 
 		if err != nil {
 			fmt.Print(err.Error())
@@ -72,14 +65,12 @@ func CreateList(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func DeleteList(w http.ResponseWriter, r *http.Request) {
+func (network *Network) DeleteList(w http.ResponseWriter, r *http.Request) {
 	if r.Method == http.MethodPost {
 		r.ParseForm()
 
 		username := r.FormValue("username")
-		repo := repository.NewRepository()
-		usecaseapi := usecase.NewUsecaseapi(&repo)
-		todoList, err := usecaseapi.FindByUserName(username)
+		todoList, err := network.usecaseapi.FindByUserName(username)
 
 		if err != nil {
 			fmt.Print(err.Error())
@@ -97,7 +88,7 @@ func DeleteList(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 
-		err = usecaseapi.UpdateUsersList(username, todoList)
+		err = network.usecaseapi.UpdateUsersList(username, todoList)
 		if err != nil {
 			fmt.Print(err.Error())
 			resp := NewFailedResponse(100)

@@ -2,6 +2,7 @@ package network
 
 import (
 	"encoding/json"
+	"jack-test/internal/usecase"
 )
 
 type Response struct {
@@ -38,4 +39,14 @@ func NewSuccessResponse() (response Response) {
 
 func NewFailedResponse(status int) (response Response) {
 	return buildResponse(status)
+}
+
+type Network struct {
+	usecaseapi usecase.Usecaseapi
+}
+
+func NewNetwork(usecaseapi usecase.Usecaseapi) (network Network) {
+	return Network{
+		usecaseapi: usecaseapi,
+	}
 }
