@@ -8,7 +8,7 @@
                 "create_at": 1618491050221
             }
         ],
-        "create_at": 1618491050221
+        "create_at": 1
     },
     "user2": {
         "sequence": 1,
@@ -19,7 +19,7 @@
                 "create_at": 1618491050221
             }
         ],
-        "create_at": 1618491050221
+        "create_at": 2
     },
     "user3": {
         "sequence": 1,
@@ -30,6 +30,6 @@
                 "create_at": 1618491050221
             }
         ],
-        "create_at": 1618491050221
+        "create_at": 3
     }
 }

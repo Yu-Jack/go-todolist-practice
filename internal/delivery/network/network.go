@@ -15,12 +15,12 @@ var messageMap = map[int]string{
 }
 
 func (response *Response) convertToBytes() []byte {
-	responseJson, _ := json.MarshalIndent(response, "", "")
+	responseJson, _ := json.MarshalIndent(response, "", "    ")
 	return responseJson
 }
 
-func ToJson (response ...interface{}) []byte {
-	responseJson, _ := json.MarshalIndent(response, "", "")
+func ToJson(response interface{}) []byte {
+	responseJson, _ := json.MarshalIndent(response, "", "    ")
 	return responseJson
 
 }

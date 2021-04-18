@@ -23,6 +23,11 @@ type UserTodoList struct {
 	Users map[string]TodoList
 }
 
+type User struct {
+	Name     string `json:"name"`
+	CreateAt int64  `json:"create_at"`
+}
+
 func (todoList *TodoList) UpdateTodoList(task string) {
 	todoList.Sequence++
 	newTask := Task{
