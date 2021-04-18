@@ -13,7 +13,8 @@ There are two APIs, and db is file now.
 - [x] Add API to edit task name and remove task.
 - [x] Change response data structure.
 - [ ] Add unit test.
-- [ ] Add API to add new user and remove user.
+- [ ] Add API to query user.
+- [ ] Add API to create new user.
 - [ ] Connect google calendar or google tasks.
 
 Make sure the code and folder structure follow up the following advises.  
