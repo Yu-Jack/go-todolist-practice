@@ -26,6 +26,7 @@ Make sure the code and folder structure follow up the following advises.
 5. https://golang.org/doc/effective_go#control-structures  
 6. Go Example Chinese: https://gobyexample-cn.github.io/
 7. Go Example Englisg: https://gobyexample.com/
+8. Go FAQ: https://golang.org/doc/faq
 
 ## Data Structure
 
