@@ -9,6 +9,6 @@ type Repository interface {
 
 type repository struct{}
 
-func NewRepository() repository {
-	return repository{}
+func NewRepository() Repository {
+	return &repository{}
 }

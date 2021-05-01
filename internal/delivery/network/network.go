@@ -45,8 +45,8 @@ type Network struct {
 	usecaseapi usecase.Usecaseapi
 }
 
-func NewNetwork(usecaseapi usecase.Usecaseapi) (network Network) {
-	return Network{
+func NewNetwork(usecaseapi usecase.Usecaseapi) (network *Network) {
+	return &Network{
 		usecaseapi: usecaseapi,
 	}
 }

@@ -10,9 +10,8 @@ import (
 
 func main() {
 	mux := http.NewServeMux()
-
 	repo := repository.NewRepository()
-	usecaseapi := usecase.NewUsecaseapi(&repo)
+	usecaseapi := usecase.NewUsecaseapi(repo)
 	network := network.NewNetwork(usecaseapi)
 	network.BuildRouter(mux)
 

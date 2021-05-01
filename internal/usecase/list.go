@@ -6,7 +6,7 @@ import (
 	"jack-test/internal/repository"
 )
 
-func (usecaseapi *Usecaseapi) FindByUserName(username string) (dataservice.TodoList, error) {
+func (usecaseapi *usecaseapi) FindByUserName(username string) (dataservice.TodoList, error) {
 	userList, err := usecaseapi.repo.GetList()
 
 	if err != nil {
@@ -21,7 +21,7 @@ func (usecaseapi *Usecaseapi) FindByUserName(username string) (dataservice.TodoL
 	return user, nil
 }
 
-func (usecaseapi *Usecaseapi) UpdateUsersList(username string, todoList dataservice.TodoList) error {
+func (usecaseapi *usecaseapi) UpdateUsersList(username string, todoList dataservice.TodoList) error {
 	repo := repository.NewRepository()
 	userList, err := repo.GetList()
 
