@@ -4,14 +4,9 @@ import (
 	"errors"
 	"jack-test/internal/dataservice"
 	"jack-test/internal/repository"
-	"sync"
 )
 
-var mu sync.Mutex
-
 func (usecaseapi *Usecaseapi) FindByUserName(username string) (dataservice.TodoList, error) {
-	mu.Lock()
-	defer mu.Unlock()
 	userList, err := usecaseapi.repo.GetList()
 
 	if err != nil {
@@ -27,8 +22,6 @@ func (usecaseapi *Usecaseapi) FindByUserName(username string) (dataservice.TodoL
 }
 
 func (usecaseapi *Usecaseapi) UpdateUsersList(username string, todoList dataservice.TodoList) error {
-	mu.Lock()
-	defer mu.Unlock()
 	repo := repository.NewRepository()
 	userList, err := repo.GetList()
 
