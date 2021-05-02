@@ -2,6 +2,7 @@ package network
 
 import (
 	"fmt"
+	"html/template"
 	"jack-test/internal/dataservice"
 	"net/http"
 	"strconv"
@@ -10,6 +11,16 @@ import (
 type getListResponse struct {
 	Response
 	dataservice.TodoList
+}
+
+func (network *Network) IndexPage(w http.ResponseWriter, r *http.Request) {
+	if r.Method == http.MethodGet {
+		temp, err := template.ParseFiles("./public/index.html")
+		if err != nil {
+			fmt.Println(err)
+		}
+		temp.Execute(w, struct{}{})
+	}
 }
 
 func (network *Network) GetList(w http.ResponseWriter, r *http.Request) {
@@ -49,6 +60,12 @@ func (network *Network) CreateList(w http.ResponseWriter, r *http.Request) {
 		}
 
 		task := r.FormValue("task")
+		if task == "" {
+			resp := NewFailedResponse(200)
+			w.Write(resp.convertToBytes())
+			return
+		}
+
 		todoList.UpdateTodoList(task)
 
 		err = network.usecaseapi.UpdateUsersList(username, todoList)

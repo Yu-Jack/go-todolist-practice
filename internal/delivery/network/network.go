@@ -13,6 +13,7 @@ type Response struct {
 var messageMap = map[int]string{
 	0:   "success",
 	100: "Failed",
+	200: "Invalid format.",
 }
 
 func (response *Response) convertToBytes() []byte {
