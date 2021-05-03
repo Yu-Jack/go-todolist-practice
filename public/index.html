@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.js"></script>
+    <script src="https://unpkg.com/vue@next"></script>
 </head>
 <body>
     <div id="app" class="container mx-auto p-5">
@@ -22,8 +22,8 @@
             <hr>
             <label>You're now {{ currentUsername }}, create task for {{ currentUsername }} </label>
             <br>
-            <c-input type="text" v-model="taskName" @keyup="resetMessage" @keyup.enter="createTodo"></c-input> 
-            <c-btn type="button" @click="createTodo">Add</c-btn>
+            <c-input type="text" :model-value="taskName" @update:model-value="taskName = $event" @keyup="resetMessage" @keyup.enter="createTodo"></c-input> 
+            <c-btn type="button" @click="createTodo(currentUsername)">Add</c-btn>
             <p> {{ message }} </p>
         </div>
         <hr>
@@ -38,11 +38,47 @@
             </ol>
         </div>
     </div>
-    <script>
-        Vue.component("c-btn", {
-            render: function(createElement) {
+    <script type="module">
+        import Todo from "./todo.js"
+        import data from "./data.js"
+
+        var vueApp = Vue.createApp({
+            setup() {
+                const {
+                    todos,
+                    users,
+                    taskName,
+                    currentUsername,
+                    message,
+                } = data()
+                
+                Vue.onMounted(async () => {
+                    const result = await fetch("/users").then(response => response.json())
+                    users.value = users.value.concat(result.users)
+                })
+
+                const {
+                    getUserTodoList,
+                    createTodo,
+                    resetMessage,
+                } = Todo()
+
+                return {
+                    users,
+                    currentUsername,
+                    message,
+                    todos,
+                    taskName,
+                    getUserTodoList,
+                    createTodo,
+                    resetMessage,
+                }
+            },
+        })
+        vueApp.component("c-btn", {
+            render: function() {
                 const self = this
-                return createElement("button", {
+                return Vue.h("button", {
                     class: [
                         'border-2',
                         'border-blue-500',
@@ -51,77 +87,22 @@
                         'rounded',
                         'px-1',
                         'py-0.5'
-                    ],
-                    on: {
-                        click:  function (e) {
-                            self.$emit('click', e)
-                        }
-                    }
-                }, this.$slots.default)
+                    ]
+                }, this.$slots.default())
             }
         })
-        Vue.component("c-input", {
-            props: ["value"],
-            render: function(createElement) {
-                const self = this
-                return createElement("input", {
-                    domProps: {
-                        value: self.value
-                    },
+        // see https://v3.vuejs.org/guide/component-basics.html#using-v-model-on-components how to implment input render function
+        vueApp.component("c-input", {
+            props: ["modelValue"],
+            render: function() {
+                return Vue.h("input", {
                     class: ['border-2', 'border-black-300', 'py-0.5', 'px-1.5'],
-                    on: {
-                        keyup:  function (e) {
-                            self.$emit('keyup', e)
-                        },
-                        input: function (event) {
-                            self.$emit('input', event.target.value)
-                        }
-                    }
+                    value: this.modelValue,
+                    onInput: (e) => this.$emit("update:modelValue", e.target.value),
                 })
             }
         })
-        new Vue({
-            el: "#app",
-            data () {
-                return {
-                    users: [],
-                    todos: [],
-                    taskName: "",
-                    currentUsername: "",
-                    message: ""
-                }
-            },
-            async mounted() {
-                const result = await fetch("/users").then(response => response.json())
-                this.users = this.users.concat(result.users)
-            },
-            methods: {
-                resetMessage () {
-                    this.message = ""
-                },
-                async getUserTodoList(username) {
-                    this.resetMessage()
-                    this.currentUsername = encodeURIComponent(username)
-                    const result = await fetch(`/todo-list/get/?username=${username}`).then(response => response.json())
-                    this.todos = [].concat(result.todo)
-                },
-                async createTodo() {
-                    this.resetMessage()
-                    const username = encodeURIComponent(this.currentUsername)
-                    const taskName = encodeURIComponent(this.taskName)
-                    const result = await fetch(`/todo-list/create/?username=${username}&task=${taskName}`, {
-                        method: "POST"
-                    }).then(response => response.json())
-                    if (result.status !== 0) {
-                        this.message = `Failed to create todo, because of ${result.message}`
-                        return
-                    }
-                    this.getUserTodoList(username)
-                    this.message = result.message
-                    this.taskName = ""
-                }
-            }
-        })
+        vueApp.mount("#app")
     </script>
 </body>
 </html>
