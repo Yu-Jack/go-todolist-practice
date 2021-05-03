@@ -22,8 +22,8 @@
             <hr>
             <label>You're now {{ currentUsername }}, create task for {{ currentUsername }} </label>
             <br>
-            <input type="text" v-model="taskName" @keyup="resetMessage" class="border-2 border-black-300 py-0.5 px-1.5">
-            <button type="button" @click="createTodo" class="border-2 border-blue-500 bg-blue-500 text-white rounded px-1 py-0.5">Add</button>
+            <c-input type="text" v-model="taskName" @keyup="resetMessage" @keyup.enter="createTodo"></c-input> 
+            <c-btn type="button" @click="createTodo">Add</c-btn>
             <p> {{ message }} </p>
         </div>
         <hr>
@@ -39,6 +39,47 @@
         </div>
     </div>
     <script>
+        Vue.component("c-btn", {
+            render: function(createElement) {
+                const self = this
+                return createElement("button", {
+                    class: [
+                        'border-2',
+                        'border-blue-500',
+                        'bg-blue-500',
+                        'text-white',
+                        'rounded',
+                        'px-1',
+                        'py-0.5'
+                    ],
+                    on: {
+                        click:  function (e) {
+                            self.$emit('click', e)
+                        }
+                    }
+                }, this.$slots.default)
+            }
+        })
+        Vue.component("c-input", {
+            props: ["value"],
+            render: function(createElement) {
+                const self = this
+                return createElement("input", {
+                    domProps: {
+                        value: self.value
+                    },
+                    class: ['border-2', 'border-black-300', 'py-0.5', 'px-1.5'],
+                    on: {
+                        keyup:  function (e) {
+                            self.$emit('keyup', e)
+                        },
+                        input: function (event) {
+                            self.$emit('input', event.target.value)
+                        }
+                    }
+                })
+            }
+        })
         new Vue({
             el: "#app",
             data () {
@@ -61,14 +102,14 @@
                 async getUserTodoList(username) {
                     this.resetMessage()
                     this.currentUsername = encodeURIComponent(username)
-                    const result = await fetch(`/todo-list/get?username=${username}`).then(response => response.json())
+                    const result = await fetch(`/todo-list/get/?username=${username}`).then(response => response.json())
                     this.todos = [].concat(result.todo)
                 },
                 async createTodo() {
                     this.resetMessage()
                     const username = encodeURIComponent(this.currentUsername)
                     const taskName = encodeURIComponent(this.taskName)
-                    const result = await fetch(`/todo-list/create?username=${username}&task=${taskName}`, {
+                    const result = await fetch(`/todo-list/create/?username=${username}&task=${taskName}`, {
                         method: "POST"
                     }).then(response => response.json())
                     if (result.status !== 0) {
@@ -77,6 +118,7 @@
                     }
                     this.getUserTodoList(username)
                     this.message = result.message
+                    this.taskName = ""
                 }
             }
         })
