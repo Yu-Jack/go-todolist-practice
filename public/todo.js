@@ -37,10 +37,7 @@ export default () => {
     }
 
     return {
-        message,
         resetMessage,
-        todos,
-        taskName,
         getUserTodoList,
         createTodo,
     }
