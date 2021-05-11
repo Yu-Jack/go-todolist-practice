@@ -1,4 +1,4 @@
-import data from "./data.js"
+import data from "../data.js"
 
 export default () => {
     const {
@@ -37,7 +37,10 @@ export default () => {
     }
 
     return {
+        message,
         resetMessage,
+        todos,
+        taskName,
         getUserTodoList,
         createTodo,
     }
